@@ -1,0 +1,46 @@
+@use 'sass:map';
+@use '../utilities/variables' as var;
+@use '../utilities/mixins' as mix;
+
+.ToDo-main {
+    @include mix.contenedor;
+    @include mix.desktop {
+        max-width: unset;
+    }
+    color: map.get(var.$colores, 'tipografia');
+}
+.ToDo-main__contenedor {
+    display: flex;
+    flex-direction: column;
+    row-gap: 3rem;
+    h2 {
+        text-align: center;
+        margin-top: 2.5rem;
+    }
+    background-color: map.get(var.$colores, 'secundario');
+    border-radius: 1rem;
+    margin: 2rem 0;
+    padding: 0 2rem;
+}
+.contenedor__agregar-tareas {
+    display: flex;
+    border-bottom: 0.2rem #2c2c2c solid;
+    padding-bottom: 3rem;
+    form {
+        display: flex;
+        align-items: center;
+    }
+}
+.contenedor__tareas-pendientes {
+    h3 {
+        text-align: center;
+    }
+    border-bottom: 0.2rem #2c2c2c solid;
+    padding-bottom: 3rem;
+}
+.contenedor__tareas-completadas {
+    h3 {
+        text-align: center;
+    }
+    padding-bottom: 2.5rem;
+}

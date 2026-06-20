@@ -1,0 +1,14 @@
+@use 'sass:map';
+@use '../utilities/variables' as var;
+@use '../utilities/mixins' as mix;
+
+.ToDo-footer {
+    @include mix.contenedor;
+    @include mix.desktop {
+        max-width: unset;
+    }
+    width: 100%;
+    background-color: map.get(var.$colores, 'secundario');
+    text-align: center;
+    padding: 1rem 0;
+}

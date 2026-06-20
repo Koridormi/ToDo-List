@@ -1,0 +1,16 @@
+@use 'sass:map';
+@use '../utilities/variables' as var;
+@use '../utilities/mixins' as mix;
+
+.ToDo-encabezado {
+    @include mix.contenedor;
+    @include mix.desktop {
+        max-width: unset;
+    }
+    width: 100%;
+    text-align: center;
+    background-color: map.get(var.$colores, 'secundario');
+    h1 {
+        color: map.get(var.$colores, 'tipografia');
+    }
+}

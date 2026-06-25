@@ -6,7 +6,7 @@ import terser from 'gulp-terser';
 const sass = gulpSass(dartSass);
 
 export function js(done) {
-    src('./src/js/app.js')
+    src('./src/js/**/*.js')
         .pipe(terser())
         .pipe(dest('build/js'));
 

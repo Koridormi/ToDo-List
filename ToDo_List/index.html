@@ -26,32 +26,43 @@
             <div class="contenedor__agregar-tareas">
                 <h3>Agrega una Tarea</h3>
 
-                <form>
+                <form id="formulario">
                     <div>
                         <label for="tarea">Tarea</label>
-                        <input id="tarea" type="text" name="text" placeholder="Escribe una tarea..">
+                        <input id="tarea" type="text" name="text" placeholder="Escribe una tarea.." value="">
                     </div>
 
-                    <button type="submit">Agregar</button>
+                    <button id="agregarTarea" type="submit">Agregar</button>
                 </form>
             </div>
 
             <div class="contenedor__tareas-pendientes">
                 <h3>Tareas Pendientes</h3>
 
-                <div>
-                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptatem accusamus id natus beatae reprehenderit molestiae obcaecati tempora placeat expedita ea quidem eaque recusandae illum a velit harum corrupti itaque, distinctio optio voluptas sequi magni labore dolores. Repudiandae, voluptatum. Dolorum odio dolore atque cumque aliquam maxime hic adipisci nisi fuga voluptatum.</p>
+                <div class="tareas__lista-pendientes">
+                    <!-- JS Generate -->
                 </div>
             </div>
 
             <div class="contenedor__tareas-completadas">
                 <h3>Tareas Completas</h3>
 
-                <div>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium magnam ea temporibus assumenda earum impedit, iusto quia facilis. Consequuntur, blanditiis dicta delectus nam repellat accusantium aliquam, dolor iure fugit sapiente at, voluptatibus a corporis veritatis non. Est, nostrum odio repellat illum ipsam optio reiciendis provident eveniet facere quod iusto iste!</p>
+                <div class="tareas__lista-completadas">
+                    <div class="tareas__contenedor">
+                        <!-- <div>
+                            <p>Tarea-Completada</p>
+                            <button>Un-Check</button>
+                        </div>
+
+                        <div>
+                            <button>X</button>
+                        </div> -->
+                    </div>
                 </div>
             </div>
         </section>
+
+        <button class="ToDo-main__limpiar">Limpiar Todas Las Tareas</button>
     </main>
 
     <footer class="ToDo-footer">

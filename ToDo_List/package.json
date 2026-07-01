@@ -21,12 +21,23 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "gulp"
+    "dev": "gulp",
+    "build": "gulp js && gulp css"
   },
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^29.0.3",
+    "@rollup/plugin-node-resolve": "^16.0.3",
+    "@rollup/stream": "^3.0.1",
     "gulp": "^5.0.1",
+    "gulp-plumber": "^1.2.1",
     "gulp-sass": "^6.0.1",
     "gulp-terser": "^2.1.0",
-    "sass": "^1.100.0"
+    "rollup": "^4.62.2",
+    "sass": "^1.100.0",
+    "vinyl-buffer": "^1.0.1",
+    "vinyl-source-stream": "^2.0.0"
+  },
+  "dependencies": {
+    "sweetalert2": "^11.26.25"
   }
 }

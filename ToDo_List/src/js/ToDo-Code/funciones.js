@@ -1,5 +1,6 @@
 import {inputTarea, tareaPendiente, tareaCompleta} from './selectores.js';
-export {agregarTareas, limpiarTareasAll};
+import {editarTareaInput} from './alertas.js';
+export {agregarTareas, leerTareas, limpiarTareasAll};
 
 // Funciones
 function agregarTareas() {
@@ -14,7 +15,7 @@ function agregarTareas() {
             estado: false
         }
         leerTareas(tarea);
-        // console.log(tarea);
+        tareaDatos(tarea);
         inputTarea.value = '';
     };
 };
@@ -47,12 +48,19 @@ function leerTareas(tarea) {
         };
     });
 
+    // Space \\
+
     divContainer.appendChild(divEdicion);
     divEdicion.appendChild(buttonEdit);
     divEdicion.appendChild(buttonDelete);
 
     buttonEdit.textContent = 'Editar';
+    buttonEdit.id = tarea.id;
     buttonDelete.textContent = 'X';
+
+    buttonEdit.addEventListener('click', async () => {
+        await editarTarea(parrafoTarea);
+    });
 
     buttonDelete.addEventListener('click', () => {
         if(true) {
@@ -89,6 +97,8 @@ function completarTarea(tarea) {
         };
     });
 
+    // Space \\
+
     divContainer.appendChild(divEdicion);
     divEdicion.appendChild(buttonDelete);
 
@@ -107,5 +117,23 @@ function limpiarTareasAll() {
         tareaCompleta.replaceChildren();
     } else {
         console.log('No hay tareas para eliminar');
+    };
+};
+
+async function tareaDatos(tarea) {
+    const valor = await tarea;
+    // console.log(valor);
+    return valor;
+};
+
+async function editarTarea(parrafo) {
+    const valor = await editarTareaInput();
+
+    if(valor.isConfirmed) {
+        parrafo.textContent = valor.value;
+    };
+
+    if(valor.isDismissed) {
+        parrafo.textContent = parrafo.textContent;
     };
 };

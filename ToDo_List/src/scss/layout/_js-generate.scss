@@ -1,0 +1,14 @@
+@use 'sass:map';
+@use '../utilities/variables' as var;
+@use '../utilities/mixins' as mix;
+
+.errorTareaAdd {
+    background-color: map.get(var.$colores, 'fondo');
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    margin-top: 2rem;
+    p {
+        color: #ff6060;
+        font-weight: bold;
+    }
+}

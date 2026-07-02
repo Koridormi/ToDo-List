@@ -1,5 +1,5 @@
 import {inputTarea, tareaPendiente, tareaCompleta} from './selectores.js';
-import {editarTareaInput} from './alertas.js';
+import {editarTareaInput, errorTareaAdd, mensajeAviso} from './alertas.js';
 export {agregarTareas, leerTareas, limpiarTareasAll};
 
 // Funciones
@@ -7,7 +7,9 @@ function agregarTareas() {
     const textoTarea = inputTarea.value.trim();
 
     if(textoTarea === '') {
-        console.log('La Tarea No Puede ir Vacia');
+        errorTareaAdd();
+
+        inputTarea.value = '';
     } else {
         const tarea = {
             id: Date.now() % 10000,
@@ -16,6 +18,7 @@ function agregarTareas() {
         }
         leerTareas(tarea);
         tareaDatos(tarea);
+
         inputTarea.value = '';
     };
 };
@@ -116,7 +119,7 @@ function limpiarTareasAll() {
         tareaPendiente.replaceChildren();
         tareaCompleta.replaceChildren();
     } else {
-        console.log('No hay tareas para eliminar');
+        mensajeAviso();
     };
 };
 
@@ -130,7 +133,12 @@ async function editarTarea(parrafo) {
     const valor = await editarTareaInput();
 
     if(valor.isConfirmed) {
-        parrafo.textContent = valor.value;
+
+        if(valor.value === '') {
+            parrafo.textContent = parrafo.textContent;
+        } else {
+            parrafo.textContent = valor.value;
+        };
     };
 
     if(valor.isDismissed) {

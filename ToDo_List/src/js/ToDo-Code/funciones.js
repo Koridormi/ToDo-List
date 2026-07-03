@@ -1,5 +1,6 @@
 import {inputTarea, tareaPendiente, tareaCompleta} from './selectores.js';
 import {editarTareaInput, errorTareaAdd, mensajeAviso} from './alertas.js';
+import {transaccionDB} from './indexedDB.js';
 export {agregarTareas, leerTareas, limpiarTareasAll};
 
 // Funciones
@@ -18,6 +19,8 @@ function agregarTareas() {
         }
         leerTareas(tarea);
         tareaDatos(tarea);
+
+        transaccionDB(tarea);
 
         inputTarea.value = '';
     };
@@ -125,7 +128,7 @@ function limpiarTareasAll() {
 
 async function tareaDatos(tarea) {
     const valor = await tarea;
-    // console.log(valor);
+    console.log(valor);
     return valor;
 };
 

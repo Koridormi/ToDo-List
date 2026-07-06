@@ -1,8 +1,10 @@
+import {tareaPendiente, tareaCompleta} from "./selectores.js";
 import {editarTareaInput} from "./alertas.js";
-import {tareaCompleta, tareaPendiente} from "./selectores.js";
-export {tareasCompletas, tareasPendientes, editarTarea};
+import {transaccionDBFalse, transaccionDBTrue, editarTareaDB, eliminarTareaDB} from "./indexedDB.js";
+import {buttonChecked, buttonUnChecked} from './tareas-botones.js';
+export {tareasPendientes, tareasCompletas};
 
-function tareasCompletas(tarea) {
+function tareasPendientes(tarea) {
     const divContainer = document.createElement('DIV');
     tareaPendiente.appendChild(divContainer);
     divContainer.classList.add('tareas__contenedor');
@@ -23,11 +25,10 @@ function tareasCompletas(tarea) {
     buttonCheck.textContent = 'Check';
     
     buttonCheck.addEventListener('click', () => {
-        if(true) {
-            tareasPendientes(tarea);
-            tarea.estado = true;
-            tareaPendiente.removeChild(divContainer);
-        };
+        buttonChecked(divContainer);
+        tareasCompletas(tarea);
+
+        transaccionDBFalse(tarea);
     });
     
     // Space \\
@@ -41,18 +42,20 @@ function tareasCompletas(tarea) {
     buttonDelete.textContent = 'X';
     
     buttonEdit.addEventListener('click', async () => {
-        await editarTarea(parrafoTarea);
+        await editarTarea(parrafoTarea, tarea);
     });
     
     buttonDelete.addEventListener('click', () => {
         if(true) {
             tarea.estado = false;
             tareaPendiente.removeChild(divContainer);
+
+            eliminarTareaDB(tarea);
         };
     });
 };
 
-function tareasPendientes(tarea) {
+function tareasCompletas(tarea) {
     const divContainer = document.createElement('DIV');
     tareaCompleta.appendChild(divContainer);
     divContainer.classList.add('tareas__contenedor');
@@ -72,11 +75,10 @@ function tareasPendientes(tarea) {
     buttonUncheck.textContent = 'Un-Check';
     
     buttonUncheck.addEventListener('click', () => {
-        if(true) {
-            tareasCompletas(tarea);
-            tarea.estado = false;
-            tareaCompleta.removeChild(divContainer);
-        };
+        buttonUnChecked(divContainer);
+        tareasPendientes(tarea);
+
+        transaccionDBTrue(tarea);
     });
     
     // Space \\
@@ -89,11 +91,13 @@ function tareasPendientes(tarea) {
     buttonDelete.addEventListener('click', () => {
         if(true) {
             tareaCompleta.removeChild(divContainer);
+
+            eliminarTareaDB(tarea);
         };
     });
 };
 
-async function editarTarea(parrafo) {
+async function editarTarea(parrafo, tarea) {
     const valor = await editarTareaInput();
 
     if(valor.isConfirmed) {
@@ -102,10 +106,15 @@ async function editarTarea(parrafo) {
             parrafo.textContent = parrafo.textContent;
         } else {
             parrafo.textContent = valor.value;
+            setTimeout( () => {
+                window.location.reload();
+            }, 450);
         };
     };
 
     if(valor.isDismissed) {
         parrafo.textContent = parrafo.textContent;
     };
+
+    editarTareaDB(valor, tarea);
 };

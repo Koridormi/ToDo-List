@@ -1,6 +1,5 @@
-import {tareaPendiente, tareaCompleta} from './selectores.js';
-import {tareasPendientes, tareasCompletas} from './tareas-logica.js';
-export {abrirDB, transaccionDB, obtenerTareasDB};
+import {tareasCompletas, tareasPendientes} from './tareas-logica.js';
+export {abrirDB, transaccionDB, transaccionDBTrue, transaccionDBFalse, obtenerTareasDB, editarTareaDB, eliminarTareaDB, eliminarTareasDB};
 
 let db;
 
@@ -45,6 +44,36 @@ function transaccionDB(tarea) {
     };
 };
 
+function transaccionDBFalse(tarea) {
+    const transaction = db.transaction(['Tareas'], 'readwrite');
+    const objectStore = transaction.objectStore('Tareas');
+    
+    const request = objectStore.get(tarea.id);
+    
+    request.onsuccess = () => {
+        const tarea = request.result;
+        
+        tarea.estado = true;
+        
+        objectStore.put(tarea);
+    };
+};
+
+function transaccionDBTrue(tarea) {
+    const transaction = db.transaction(['Tareas'], 'readwrite');
+    const objectStore = transaction.objectStore('Tareas');
+
+    const request = objectStore.get(tarea.id);
+
+    request.onsuccess = () => {
+        const tarea = request.result;
+
+        tarea.estado = false;
+
+        objectStore.put(tarea);
+    };
+};
+
 function obtenerTareasDB() {
     const transaction = db.transaction(['Tareas'], 'readonly');
     const objectStore = transaction.objectStore('Tareas');
@@ -54,20 +83,47 @@ function obtenerTareasDB() {
     request.onsuccess = (e) => {
         const tareas = e.target.result;
 
-        // llamar a las tareas para render
+        tareas.forEach( (tarea) => {
+            if(tarea.estado === false) {
+                tareasPendientes(tarea);
+            } else if(tarea.estado === true) {
+                tareasCompletas(tarea);
+            };
+        });
     };
 };
 
-function leerTareasPendientesDB(tareas) {
-    tareas.forEach( (tarea) => {
-        // limpiar duplicados
-        tareasPendientes(tarea);
-    });
+function editarTareaDB(valor, tarea) {
+    const transaction = db.transaction(['Tareas'], 'readwrite');
+    const objectStore = transaction.objectStore('Tareas');
+
+    const request = objectStore.getAll();
+
+    request.onsuccess = () => {
+        const tareas = request.result;
+
+        const tareaElegida = tareas.find( (tareaSelect) => tareaSelect.id === tarea.id);
+
+        if(valor.isConfirmed) {
+            tareaElegida.texto = valor.value;
+            objectStore.put(tareaElegida);
+        } else if(valor.isDismissed) {
+            tareaElegida.texto = tareaElegida.texto;
+            objectStore.put(tareaElegida);
+        };
+    };
 };
 
-function leerTareasCompletasDB(tareas) {
-    tareas.forEach( (tarea) => {
-        // limpiar duplicados
-        tareasCompletas(tarea);
-    });
+function eliminarTareaDB(tarea) {
+    const transaction = db.transaction(['Tareas'], 'readwrite');
+    const objectStore = transaction.objectStore('Tareas');
+
+    const request = objectStore.delete(tarea.id);
+};
+
+function eliminarTareasDB() {
+    const transaction = db.transaction(['Tareas'], 'readwrite');
+    const objectStore = transaction.objectStore('Tareas');
+
+    const request = objectStore.clear();
 };

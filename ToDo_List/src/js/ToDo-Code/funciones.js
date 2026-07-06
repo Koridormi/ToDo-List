@@ -1,7 +1,7 @@
 import {inputTarea, tareaPendiente, tareaCompleta} from './selectores.js';
 import {errorTareaAdd, mensajeAviso} from './alertas.js';
-import {tareasCompletas} from './tareas-logica.js';
-import {transaccionDB} from './indexedDB.js';
+import {tareasPendientes} from './tareas-logica.js';
+import {transaccionDB, eliminarTareasDB} from './indexedDB.js';
 export {agregarTareas, limpiarTareasAll};
 
 // Funciones
@@ -18,7 +18,7 @@ function agregarTareas() {
             texto: textoTarea,
             estado: false
         }
-        tareasCompletas(tarea);
+        tareasPendientes(tarea);
 
         transaccionDB(tarea);
 
@@ -30,6 +30,8 @@ function limpiarTareasAll() {
     if(tareaPendiente.children.length > 0 || tareaCompleta.children.length > 0) {
         tareaPendiente.replaceChildren();
         tareaCompleta.replaceChildren();
+
+        eliminarTareasDB();
     } else {
         mensajeAviso();
     };

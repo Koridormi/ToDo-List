@@ -1,4 +1,6 @@
-export {abrirDB, transaccionDB};
+import {tareaPendiente, tareaCompleta} from './selectores.js';
+import {tareasPendientes, tareasCompletas} from './tareas-logica.js';
+export {abrirDB, transaccionDB, obtenerTareasDB};
 
 let db;
 
@@ -15,8 +17,8 @@ function abrirDB() {
     
     request.onsuccess = (e) => {
         db = e.target.result;
-    
-        console.log(`Base de Datos Abierta Correctamente | ${db}`);
+
+        obtenerTareasDB();
     };
     
     request.onerror = (e) => {
@@ -33,13 +35,11 @@ function transaccionDB(tarea) {
     const request = objectStore.add(tarea);
 
     request.onsuccess = (e) => {
-        db = e.target.result;
-
-        console.log(`Tarea Agregada | ${db}`);
+        const db = e.target.result;
     };
 
     request.onerror = (e) => {
-        db = e.target.result;
+        const db = e.target.result;
 
         console.log(`Tarea No Agregada | ${db}`);
     };
@@ -54,6 +54,20 @@ function obtenerTareasDB() {
     request.onsuccess = (e) => {
         const tareas = e.target.result;
 
-        //funcion con forEach
+        // llamar a las tareas para render
     };
+};
+
+function leerTareasPendientesDB(tareas) {
+    tareas.forEach( (tarea) => {
+        // limpiar duplicados
+        tareasPendientes(tarea);
+    });
+};
+
+function leerTareasCompletasDB(tareas) {
+    tareas.forEach( (tarea) => {
+        // limpiar duplicados
+        tareasCompletas(tarea);
+    });
 };
